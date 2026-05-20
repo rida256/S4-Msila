@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب المعدل الفصلي حسب المعاملات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .result {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e8f4fc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>حساب المعدل الفصلي - الفصل الرابع</h1>
+    <h2>حسب المعاملات والنقاط والاختبار/أعمال مستمرة</h2>
+
+    <table id="gradesTable">
+        <thead>
+        <tr>
+            <th>المادة</th>
+            <th>المعامل</th>
+            <th>اختبار</th>
+            <th>أعمال مستمرة</th>
+            <th>النقطة النهائية</th>
+            <th>القيمة المرجحة</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- سيتم ملء الجدول بواسطة JavaScript -->
+        </tbody>
+    </table>
+
+    <div class="result" id="result">
+        المعدل الكلي: سيتم حسابه بعد إدخال النقاط
+    </div>
+
+    <button onclick="calculateWeightedAverage()">احسب المعدل</button>
+</div>
+
+<script>
+    const subjects = [
+        { name: "Droit Des Télécommunications", coefficient: 1, exam: 1.0, ca: 0.0 },
+        { name: "Logique Combinatoire Et Séquentielle", coefficient: 2, exam: 0.6, ca: 0.4 },
+        { name: "Mesures Électriques Et Électroniques", coefficient: 2, exam: 0.6, ca: 0.4 },
+        { name: "Méthodes Numériques", coefficient: 2, exam: 0.6, ca: 0.4 },
+        { name: "Techniques D'expression, D'information Et De Communication", coefficient: 1, exam: 1.0, ca: 0.0 },
+        { name: "Télécommunications Et Applications", coefficient: 1, exam: 1.0, ca: 0.0 },
+        { name: "Télécommunications Fondamentale", coefficient: 3, exam: 0.6, ca: 0.4 },
+        { name: "Théorie Du Signal", coefficient: 2, exam: 0.6, ca: 0.4 },
+        { name: "Tp Logique Combinatoire Et Séquentielle", coefficient: 1, exam: 0.0, ca: 1.0 },
+        { name: "Tp Méthodes Numériques", coefficient: 1, exam: 0.0, ca: 1.0 },
+        { name: "Tp Télécommunications Fondamentale", coefficient: 1, exam: 0.0, ca: 1.0 },
+    ];
+
+    function displaySubjects() {
+        const tbody = document.querySelector("#gradesTable tbody");
+        tbody.innerHTML = "";
+
+        subjects.forEach((subject, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${subject.name}</td>
+                <td>${subject.coefficient}</td>
+                <td><input type="number" min="0" max="20" id="exam-${index}" ${subject.exam === 0 ? 'disabled' : ''}></td>
+                <td><input type="number" min="0" max="20" id="ca-${index}" ${subject.ca === 0 ? 'disabled' : ''}></td>
+                <td id="final-${index}">-</td>
+                <td id="weighted-${index}">0.00</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function calculateWeightedAverage() {
+        let totalWeighted = 0;
+        let totalCoefficients = 0;
+        let missing = false;
+
+        subjects.forEach((subject, index) => {
+            const examInput = document.getElementById(`exam-${index}`);
+            const caInput = document.getElementById(`ca-${index}`);
+
+            const exam = parseFloat(examInput?.value) || 0;
+            const ca = parseFloat(caInput?.value) || 0;
+
+            const final = (exam * subject.exam + ca * subject.ca) / (subject.exam + subject.ca);
+            const weighted = final * subject.coefficient;
+
+            if ((subject.exam > 0 && examInput.value === '') || (subject.ca > 0 && caInput.value === '')) {
+                missing = true;
+            }
+
+            document.getElementById(`final-${index}`).textContent = final.toFixed(2);
+            document.getElementById(`weighted-${index}`).textContent = weighted.toFixed(2);
+
+            totalWeighted += weighted;
+            totalCoefficients += subject.coefficient;
+        });
+
+        const resultBox = document.getElementById("result");
+        if (missing) {
+            resultBox.textContent = "🚨 الرجاء إدخال جميع النقاط المطلوبة لكل مادة";
+            return;
+        }
+
+        const avg = totalWeighted / totalCoefficients;
+        const messages = [
+            "🎓 إذا طلعت فوق 15، فكر تعزم روحك على عصير 🍹!",
+            "💡 لو المعدل تحت 10، لا تقلق.. حتى الجاذبية بدأت بسقوط 🍎!",
+            "📚 المعدلات لا تُعبر عنك.. لكن النجاح يحب المنظمين!",
+            "😄 معدل ممتاز؟ الوقت تحط صورتك على LinkedIn ✨",
+        ];
+        const message = messages[Math.floor(Math.random() * messages.length)];
+
+        resultBox.textContent = `المعدل الكلي: ${avg.toFixed(2)} / 20  🎯\n${message}`;
+    }
+
+    window.onload = displaySubjects;
+</script>
+</body>
+</html>
