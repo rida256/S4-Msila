@@ -33,7 +33,50 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
             margin: 20px 0;
+            position: relative; /* لترتيب العناصر الداخلية إذا لزم الأمر */
         }
+
+        /* ---- تصميم خانة الحالة الجديدة ---- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71; /* اللون الأخضر */
+            border-radius: 50%;
+            position: relative;
+        }
+
+        /* تأثير النبض الذكي للنقطة الخضراء */
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            animation: pulse 1.5s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+        /* ---------------------------------- */
 
         .icon {
             font-size: 50px;
@@ -54,10 +97,38 @@
             line-height: 1.6;
         }
 
-        /* حاوية الفيديو لجعل التضمين متجاوباً وأنيقاً */
+        /* ---- تصميم العداد ---- */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            direction: ltr;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 75px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .time-num {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+            color: #fff;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #ddd;
+        }
+
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* نسبة أبعاد الفيديو 16:9 */
+            padding-bottom: 56.25%; 
             height: 0;
             overflow: hidden;
             border-radius: 10px;
@@ -74,31 +145,55 @@
             height: 100%;
         }
 
-        /* حركات تجميلية */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
 
-        /* التوافق مع الشاشات الصغيرة */
         @media (max-width: 480px) {
             h1 { font-size: 1.6rem; }
             p { font-size: 0.95rem; }
             .container { padding: 25px 15px; }
+            .time-box { min-width: 60px; padding: 8px 10px; }
+            .time-num { font-size: 1.4rem; }
+            .time-label { font-size: 0.7rem; }
+            .status-badge { font-size: 0.8rem; padding: 4px 12px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- أيقونة تعبيرية -->
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>متصل</span>
+        </div>
+
         <div class="icon">🛠️</div>
         
         <h1>عذرًا، الموقع مؤقتًا خارج الخدمة</h1>
         
         <p>نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل. سنعود إليكم في أقرب وقت ممكن!</p>
         
-        <!-- تضمين فيديو يوتيوب بشكل متجاوب -->
+        <div class="countdown-container">
+            <div class="time-box">
+                <span class="time-num" id="seconds">00</span>
+                <span class="time-label">ثانية</span>
+            </div>
+            <div class="time-box">
+                <span class="time-num" id="minutes">00</span>
+                <span class="time-label">دقيقة</span>
+            </div>
+            <div class="time-box">
+                <span class="time-num" id="hours">00</span>
+                <span class="time-label">ساعة</span>
+            </div>
+            <div class="time-box">
+                <span class="time-num" id="days">00</span>
+                <span class="time-label">يوم</span>
+            </div>
+        </div>
+
         <div class="video-container">
             <iframe 
                 src="https://www.youtube.com/embed/j31DOUlaYz4" 
@@ -109,6 +204,35 @@
             </iframe>
         </div>
     </div>
+
+    <script>
+        // تحديد تاريخ ووقت معين وثابت لجميع المستخدمين (8 ديسمبر 2026 الساعة 00:00:00)
+        const targetDate = new Date(2026, 11, 8, 0, 0, 0).getTime();
+
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            if (difference < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("days").innerHTML = "0";
+                document.getElementById("hours").innerHTML = "00";
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+                document.querySelector(".countdown-container").innerHTML = "<h3 style='color: #4caf50;'>تم الافتتاح رسميًا!</h3>";
+            }
+        }, 1000);
+    </script>
 
 </body>
 </html>
