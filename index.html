@@ -3,62 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الموقع قيد التحديث</title>
+    <title>الموقع قيد التحديث / Site Under Maintenance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* المتغيرات الأساسية للألوان لتسهيل التبديل */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --container-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --sub-text: #e0e0e0;
+            --box-bg: rgba(255, 255, 255, 0.15);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --toggle-bg: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ألوان الوضع المضيء (Light Mode) */
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --container-bg: rgba(255, 255, 255, 0.6);
+            --text-color: #2c3e50;
+            --sub-text: #546e7a;
+            --box-bg: rgba(0, 0, 0, 0.05);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --toggle-bg: rgba(0, 0, 0, 0.1);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.3s;
         }
 
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: #ffffff;
+            background: var(--bg-gradient);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 20px;
+            position: relative;
+        }
+
+        /* ---- أزرار التحكم في الزاوية ---- */
+        .controls-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        /* عند تحويل الاتجاه للإنجليزية ينقلب مكان الأزرار تلقائياً لليسر */
+        html[dir="ltr"] .controls-wrapper {
+            right: auto;
+            left: 20px;
+        }
+
+        .control-btn {
+            background: var(--toggle-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .control-btn:hover {
+            transform: scale(1.05);
         }
 
         .container {
             width: 100%;
             max-width: 650px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--container-bg);
             padding: 40px 30px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
             margin: 20px 0;
-            position: relative; /* لترتيب العناصر الداخلية إذا لزم الأمر */
         }
 
-        /* ---- تصميم خانة الحالة الجديدة ---- */
+        /* ---- خانة الحالة ---- */
         .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--box-bg);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .status-dot {
             width: 10px;
             height: 10px;
-            background-color: #2ecc71; /* اللون الأخضر */
+            background-color: #2ecc71;
             border-radius: 50%;
             position: relative;
         }
 
-        /* تأثير النبض الذكي للنقطة الخضراء */
         .status-dot::after {
             content: '';
             position: absolute;
@@ -76,7 +133,6 @@
             0% { transform: scale(1); opacity: 0.6; }
             100% { transform: scale(2.4); opacity: 0; }
         }
-        /* ---------------------------------- */
 
         .icon {
             font-size: 50px;
@@ -93,48 +149,51 @@
         p {
             font-size: 1.1rem;
             margin-bottom: 25px;
-            color: #e0e0e0;
+            color: var(--sub-text);
             line-height: 1.6;
         }
 
-        /* ---- تصميم العداد ---- */
+        /* ---- العداد التنازلي ---- */
         .countdown-container {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-bottom: 30px;
-            direction: ltr;
         }
 
+        /* ترتيب الصناديق يتبع اتجاه لغة الصفحة دائماً بشكل صحيح */
+        html[dir="rtl"] .countdown-container { direction: ltr; }
+        html[dir="ltr"] .countdown-container { direction: ltr; }
+
         .time-box {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--box-bg);
             padding: 10px 15px;
             border-radius: 8px;
             min-width: 75px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .time-num {
             font-size: 1.8rem;
             font-weight: bold;
             display: block;
-            color: #fff;
         }
 
         .time-label {
             font-size: 0.8rem;
-            color: #ddd;
+            color: var(--sub-text);
         }
 
+        /* ---- الفيديو ---- */
         .video-container {
             position: relative;
             padding-bottom: 56.25%; 
             height: 0;
             overflow: hidden;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .video-container iframe {
@@ -158,39 +217,51 @@
             .time-num { font-size: 1.4rem; }
             .time-label { font-size: 0.7rem; }
             .status-badge { font-size: 0.8rem; padding: 4px 12px; }
+            .controls-wrapper { top: 15px; right: 15px; }
+            html[dir="ltr"] .controls-wrapper { left: 15px; }
+            .control-btn { width: 38px; height: 38px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
+    <div class="controls-wrapper">
+        <button class="control-btn" id="langBtn" title="تغيير اللغة / Change Language">
+            <i class="fas fa-language"></i>
+        </button>
+        <button class="control-btn" id="themeBtn" title="تبديل المظهر / Toggle Appearance">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+
     <div class="container">
         <div class="status-badge">
             <span class="status-dot"></span>
-            <span>متصل</span>
+            <span id="statusText">متصل</span>
         </div>
 
         <div class="icon">🛠️</div>
         
-        <h1>عذرًا، الموقع مؤقتًا خارج الخدمة</h1>
+        <h1 id="mainTitle">عذرًا، الموقع مؤقتًا خارج الخدمة</h1>
         
-        <p>نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل. سنعود إليكم في أقرب وقت ممكن!</p>
+        <p id="mainDesc">نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل. سنعود إليكم في أقرب وقت ممكن!</p>
         
         <div class="countdown-container">
             <div class="time-box">
                 <span class="time-num" id="seconds">00</span>
-                <span class="time-label">ثانية</span>
+                <span class="time-label" id="lblSec">ثانية</span>
             </div>
             <div class="time-box">
                 <span class="time-num" id="minutes">00</span>
-                <span class="time-label">دقيقة</span>
+                <span class="time-label" id="lblMin">دقيقة</span>
             </div>
             <div class="time-box">
                 <span class="time-num" id="hours">00</span>
-                <span class="time-label">ساعة</span>
+                <span class="time-label" id="lblHr">ساعة</span>
             </div>
             <div class="time-box">
                 <span class="time-num" id="days">00</span>
-                <span class="time-label">يوم</span>
+                <span class="time-label" id="lblDay">يوم</span>
             </div>
         </div>
 
@@ -206,8 +277,9 @@
     </div>
 
     <script>
-        // تحديد تاريخ ووقت معين وثابت لجميع المستخدمين (8 ديسمبر 2026 الساعة 00:00:00)
+        // العداد التنازلي الثابت لـ 8 ديسمبر 2026
         const targetDate = new Date(2026, 11, 8, 0, 0, 0).getTime();
+        let currentLang = 'ar';
 
         const countdownFunction = setInterval(function() {
             const now = new Date().getTime();
@@ -218,10 +290,12 @@
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            if (document.getElementById("days")) {
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            }
 
             if (difference < 0) {
                 clearInterval(countdownFunction);
@@ -229,9 +303,72 @@
                 document.getElementById("hours").innerHTML = "00";
                 document.getElementById("minutes").innerHTML = "00";
                 document.getElementById("seconds").innerHTML = "00";
-                document.querySelector(".countdown-container").innerHTML = "<h3 style='color: #4caf50;'>تم الافتتاح رسميًا!</h3>";
+                document.querySelector(".countdown-container").innerHTML = currentLang === 'ar' ? 
+                    "<h3 style='color: #4caf50;'>تم الافتتاح رسميًا!</h3>" : 
+                    "<h3 style='color: #4caf50;'>Officially Launched!</h3>";
             }
         }, 1000);
+
+        // سكريبت تبديل الوضع الداكن / المضيء
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+            }
+        });
+
+        // قاموس النصوص المترجمة للتبديل الفوري
+        const translations = {
+            ar: {
+                status: "متصل",
+                title: "عذرًا، الموقع مؤقتًا خارج الخدمة",
+                desc: "نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل. سنعود إليكم في أقرب وقت ممكن!",
+                day: "يوم",
+                hr: "ساعة",
+                min: "دقيقة",
+                sec: "ثانية"
+            },
+            en: {
+                status: "Online",
+                title: "Sorry, the site is temporarily offline",
+                desc: "We are currently working on some improvements and updates to provide you with a better experience. We will be back soon!",
+                day: "Days",
+                hr: "Hours",
+                min: "Minutes",
+                sec: "Seconds"
+            }
+        };
+
+        // سكريبت الترجمة الفورية
+        const langBtn = document.getElementById('langBtn');
+        
+        langBtn.addEventListener('click', () => {
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                document.documentElement.setAttribute('lang', 'en');
+                document.documentElement.setAttribute('dir', 'ltr');
+            } else {
+                currentLang = 'ar';
+                document.documentElement.setAttribute('lang', 'ar');
+                document.documentElement.setAttribute('dir', 'rtl');
+            }
+            
+            // تطبيق الترجمات على العناصر مباشرة واجهة المستخدم
+            document.getElementById('statusText').innerText = translations[currentLang].status;
+            document.getElementById('mainTitle').innerText = translations[currentLang].title;
+            document.getElementById('mainDesc').innerText = translations[currentLang].desc;
+            document.getElementById('lblDay').innerText = translations[currentLang].day;
+            document.getElementById('lblHr').innerText = translations[currentLang].hr;
+            document.getElementById('lblMin').innerText = translations[currentLang].min;
+            document.getElementById('lblSec').innerText = translations[currentLang].sec;
+        });
     </script>
 
 </body>
