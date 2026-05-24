@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الموقع قيد التحديث / Site Under Maintenance</title>
+    <title>إعلان نهاية السنة الجامعية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* المتغيرات الأساسية للألوان لتسهيل التبديل */
@@ -58,7 +58,6 @@
             z-index: 10;
         }
 
-        /* عند تحويل الاتجاه للإنجليزية ينقلب مكان الأزرار تلقائياً لليسر */
         html[dir="ltr"] .controls-wrapper {
             right: auto;
             left: 20px;
@@ -94,48 +93,9 @@
             margin: 20px 0;
         }
 
-        /* ---- خانة الحالة ---- */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--box-bg);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .status-dot::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-            animation: pulse 1.5s infinite ease-in-out;
-            opacity: 0.6;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(2.4); opacity: 0; }
-        }
-
         .icon {
-            font-size: 50px;
+            font-size: 55px;
+            margin-top: 10px;
             margin-bottom: 15px;
             animation: float 3s ease-in-out infinite;
         }
@@ -144,64 +104,75 @@
             font-size: 2.2rem;
             margin-bottom: 15px;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         p {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
             color: var(--sub-text);
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
-        /* ---- العداد التنازلي ---- */
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+        .date-box {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #ffeb3b;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 16px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .date-box {
+            color: #b71c1c;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        /* ترتيب الصناديق يتبع اتجاه لغة الصفحة دائماً بشكل صحيح */
-        html[dir="rtl"] .countdown-container { direction: ltr; }
-        html[dir="ltr"] .countdown-container { direction: ltr; }
-
-        .time-box {
-            background: var(--box-bg);
-            padding: 10px 15px;
-            border-radius: 8px;
-            min-width: 75px;
-            border: 1px solid var(--border-color);
+        /* التنسيق لصندوق الدعاء */
+        .dua-box {
+            font-size: 1.35rem;
+            font-weight: 500;
+            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+            padding: 25px 20px;
+            border-radius: 12px;
+            border-right: 6px solid #2ecc71;
+            margin: 30px 0;
+            line-height: 1.9;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        [data-theme="light"] .dua-box {
+            background: linear-gradient(145deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+            box-shadow: none;
+            text-shadow: none;
+        }
+        
+        html[dir="ltr"] .dua-box {
+            border-right: none;
+            border-left: 6px solid #2ecc71;
         }
 
-        .time-num {
-            font-size: 1.8rem;
-            font-weight: bold;
+        /* تصميم هادئ وغير بارز لدعاء الجد */
+        .grandpa-dua {
+            font-size: 0.9rem;
+            color: var(--sub-text);
+            opacity: 0.65;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            font-style: normal;
             display: block;
         }
-
-        .time-label {
-            font-size: 0.8rem;
-            color: var(--sub-text);
+        .grandpa-dua i {
+            margin-left: 5px;
         }
-
-        /* ---- الفيديو ---- */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; 
-            height: 0;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        html[dir="ltr"] .grandpa-dua i {
+            margin-left: 0;
+            margin-right: 5px;
         }
 
         @keyframes float {
@@ -210,16 +181,14 @@
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 1.6rem; }
-            p { font-size: 0.95rem; }
-            .container { padding: 25px 15px; }
-            .time-box { min-width: 60px; padding: 8px 10px; }
-            .time-num { font-size: 1.4rem; }
-            .time-label { font-size: 0.7rem; }
-            .status-badge { font-size: 0.8rem; padding: 4px 12px; }
+            h1 { font-size: 1.7rem; }
+            p { font-size: 1.05rem; }
+            .container { padding: 30px 20px; }
             .controls-wrapper { top: 15px; right: 15px; }
             html[dir="ltr"] .controls-wrapper { left: 15px; }
             .control-btn { width: 38px; height: 38px; font-size: 1rem; }
+            .dua-box { font-size: 1.15rem; padding: 20px 15px; }
+            .grandpa-dua { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -235,79 +204,45 @@
     </div>
 
     <div class="container">
-        <div class="status-badge">
-            <span class="status-dot"></span>
-            <span id="statusText">متصل</span>
+
+        <div class="icon">🎓</div>
+        
+        <h1 id="mainTitle">نعلن رسمياً نهاية السنة الجامعية</h1>
+        
+        <p id="mainDesc">
+            الحمد لله الذي بنعمته تتم الصالحات، نعلن لكم عن اختتام السنة الدراسية الجامعية بنجاح.
+            <br>
+            <span class="date-box" id="currentDate">جاري تحميل التاريخ...</span>
+        </p>
+
+        <div class="dua-box" id="duaText">
+            "الحمد لله على ما انقضى من تعب، والشكر له على ما تحقق من توفيق. نسأل الله العلي القدير أن يوفقنا جميعاً في السنة المقبلة، وأن يجعلها سنة نجاح، تميز، وتيسير لكل الطلاب."
         </div>
 
-        <div class="icon">🛠️</div>
-        
-        <h1 id="mainTitle">عذرًا، الموقع مؤقتًا خارج الخدمة</h1>
-        
-        <p id="mainDesc">نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل<br>😁😁😂<br>سنعود إليكم في أقرب وقت ممكن!</p>
-        
-        <div class="countdown-container">
-            <div class="time-box">
-                <span class="time-num" id="seconds">00</span>
-                <span class="time-label" id="lblSec">ثانية</span>
-            </div>
-            <div class="time-box">
-                <span class="time-num" id="minutes">00</span>
-                <span class="time-label" id="lblMin">دقيقة</span>
-            </div>
-            <div class="time-box">
-                <span class="time-num" id="hours">00</span>
-                <span class="time-label" id="lblHr">ساعة</span>
-            </div>
-            <div class="time-box">
-                <span class="time-num" id="days">00</span>
-                <span class="time-label" id="lblDay">يوم</span>
-            </div>
-        </div>
-
-        <div class="video-container">
-            <iframe 
-                src="https://www.youtube.com/embed/j31DOUlaYz4" 
-                title="وإلى هنا تنتهي سهرتنا" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen>
-            </iframe>
-        </div>
+        <small class="grandpa-dua" id="grandpaText">
+            <i class="fas fa-heart"></i> لا تنسوا الدعاء لجدي بالرحمة والمغفرة
+        </small>
     </div>
 
     <script>
-        // العداد التنازلي الثابت لـ 8 ديسمبر 2026
-        const targetDate = new Date(2026, 11, 8, 0, 0, 0).getTime();
         let currentLang = 'ar';
 
-        const countdownFunction = setInterval(function() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            if (document.getElementById("days")) {
-                document.getElementById("days").innerHTML = days;
-                document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-                document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-                document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+        // دالة عرض التاريخ بالأرقام العالمية 1, 2, 3
+        function displayCurrentDate() {
+            const today = new Date();
+            const optionsAr = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const optionsEn = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            if (currentLang === 'ar') {
+                let dateStr = today.toLocaleDateString('ar-MA', optionsAr);
+                document.getElementById('currentDate').innerText = "التاريخ: " + dateStr;
+            } else {
+                document.getElementById('currentDate').innerText = "Date: " + today.toLocaleDateString('en-US', optionsEn);
             }
-
-            if (difference < 0) {
-                clearInterval(countdownFunction);
-                document.getElementById("days").innerHTML = "0";
-                document.getElementById("hours").innerHTML = "00";
-                document.getElementById("minutes").innerHTML = "00";
-                document.getElementById("seconds").innerHTML = "00";
-                document.querySelector(".countdown-container").innerHTML = currentLang === 'ar' ? 
-                    "<h3 style='color: #4caf50;'>تم الافتتاح رسميًا!</h3>" : 
-                    "<h3 style='color: #4caf50;'>Officially Launched!</h3>";
-            }
-        }, 1000);
+        }
+        
+        // تشغيل الدالة فوراً عند تحميل الصفحة
+        displayCurrentDate();
 
         // سكريبت تبديل الوضع الداكن / المضيء
         const themeBtn = document.getElementById('themeBtn');
@@ -324,29 +259,23 @@
             }
         });
 
-        // قاموس النصوص المترجمة للتبديل الفوري
+        // قاموس النصوص المترجمة للتبديل الفوري للغات
         const translations = {
             ar: {
-                status: "متصل",
-                title: "عذرًا، الموقع مؤقتًا خارج الخدمة",
-                desc: "نعمل حاليًا على إجراء بعض التحسينات والتحديثات لنقدم لكم تجربة أفضل. سنعود إليكم في أقرب وقت ممكن!",
-                day: "يوم",
-                hr: "ساعة",
-                min: "دقيقة",
-                sec: "ثانية"
+                title: "نعلن رسمياً نهاية السنة الجامعية",
+                desc: "الحمد لله الذي بنعمته تتم الصالحات، نعلن لكم عن اختتام السنة الدراسية الجامعية بنجاح.",
+                dua: '"الحمد لله على ما انقضى من تعب، والشكر له على ما تحقق من توفيق. نسأل الله العلي القدير أن يوفقنا جميعاً في السنة المقبلة، وأن يجعلها سنة نجاح، تميز، وتيسير لكل الطلاب."',
+                grandpa: "لا تنسوا الدعاء لجدي بالرحمة والمغفرة"
             },
             en: {
-                status: "Online",
-                title: "Sorry, the site is temporarily offline",
-                desc: "We are currently working on some improvements and updates to provide you with a better experience. We will be back soon!",
-                day: "Days",
-                hr: "Hours",
-                min: "Minutes",
-                sec: "Seconds"
+                title: "We officially announce the end of the academic year",
+                desc: "Praise be to Allah, by whose grace good deeds are accomplished. We announce the successful conclusion of the university academic year.",
+                dua: '"Praise be to Allah for the hard work that has passed, and thanks be to Him for the success achieved. We ask Almighty Allah to grant us all success in the coming year, and to make it a year of success, distinction, and ease for all students."',
+                grandpa: "Please don't forget to pray for my grandfather for mercy and forgiveness"
             }
         };
 
-        // سكريبت الترجمة الفورية
+        // سكريبت الترجمة الفورية للأزرار والنصوص الأساسية
         const langBtn = document.getElementById('langBtn');
         
         langBtn.addEventListener('click', () => {
@@ -360,14 +289,12 @@
                 document.documentElement.setAttribute('dir', 'rtl');
             }
             
-            // تطبيق الترجمات على العناصر مباشرة واجهة المستخدم
-            document.getElementById('statusText').innerText = translations[currentLang].status;
             document.getElementById('mainTitle').innerText = translations[currentLang].title;
-            document.getElementById('mainDesc').innerText = translations[currentLang].desc;
-            document.getElementById('lblDay').innerText = translations[currentLang].day;
-            document.getElementById('lblHr').innerText = translations[currentLang].hr;
-            document.getElementById('lblMin').innerText = translations[currentLang].min;
-            document.getElementById('lblSec').innerText = translations[currentLang].sec;
+            document.getElementById('mainDesc').innerHTML = translations[currentLang].desc + '<br><span class="date-box" id="currentDate"></span>';
+            document.getElementById('duaText').innerText = translations[currentLang].dua;
+            document.getElementById('grandpaText').innerHTML = `<i class="fas fa-heart"></i> ${translations[currentLang].grandpa}`;
+            
+            displayCurrentDate();
         });
     </script>
 
