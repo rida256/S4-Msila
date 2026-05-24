@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعلان نهاية السنة الجامعية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* المتغيرات الأساسية للألوان لتسهيل التبديل */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --container-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --sub-text: #e0e0e0;
+            --box-bg: rgba(255, 255, 255, 0.15);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --toggle-bg: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ألوان الوضع المضيء (Light Mode) */
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --container-bg: rgba(255, 255, 255, 0.6);
+            --text-color: #2c3e50;
+            --sub-text: #546e7a;
+            --box-bg: rgba(0, 0, 0, 0.05);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --toggle-bg: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.3s;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* ---- أزرار التحكم في الزاوية ---- */
+        .controls-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        html[dir="ltr"] .controls-wrapper {
+            right: auto;
+            left: 20px;
+        }
+
+        .control-btn {
+            background: var(--toggle-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .control-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--container-bg);
+            padding: 40px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            margin: 20px 0;
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: var(--sub-text);
+            line-height: 1.8;
+        }
+
+        .date-box {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #ffeb3b;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 16px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .date-box {
+            color: #b71c1c;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* التنسيق لصندوق الدعاء */
+        .dua-box {
+            font-size: 1.35rem;
+            font-weight: 500;
+            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+            padding: 25px 20px;
+            border-radius: 12px;
+            border-right: 6px solid #2ecc71;
+            margin: 30px 0;
+            line-height: 1.9;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        [data-theme="light"] .dua-box {
+            background: linear-gradient(145deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+            box-shadow: none;
+            text-shadow: none;
+        }
+        
+        html[dir="ltr"] .dua-box {
+            border-right: none;
+            border-left: 6px solid #2ecc71;
+        }
+
+        /* تصميم هادئ وغير بارز لدعاء الجد */
+        .grandpa-dua {
+            font-size: 0.9rem;
+            color: var(--sub-text);
+            opacity: 0.65;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            font-style: normal;
+            display: block;
+        }
+        .grandpa-dua i {
+            margin-left: 5px;
+        }
+        html[dir="ltr"] .grandpa-dua i {
+            margin-left: 0;
+            margin-right: 5px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.7rem; }
+            p { font-size: 1.05rem; }
+            .container { padding: 30px 20px; }
+            .controls-wrapper { top: 15px; right: 15px; }
+            html[dir="ltr"] .controls-wrapper { left: 15px; }
+            .control-btn { width: 38px; height: 38px; font-size: 1rem; }
+            .dua-box { font-size: 1.15rem; padding: 20px 15px; }
+            .grandpa-dua { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls-wrapper">
+        <button class="control-btn" id="langBtn" title="تغيير اللغة / Change Language">
+            <i class="fas fa-language"></i>
+        </button>
+        <button class="control-btn" id="themeBtn" title="تبديل المظهر / Toggle Appearance">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+
+    <div class="container">
+
+        <div class="icon">🎓</div>
+        
+        <h1 id="mainTitle">نعلن رسمياً نهاية السنة الجامعية</h1>
+        
+        <p id="mainDesc">
+            الحمد لله الذي بنعمته تتم الصالحات، نعلن لكم عن اختتام السنة الدراسية الجامعية بنجاح.
+            <br>
+            <span class="date-box" id="currentDate">جاري تحميل التاريخ...</span>
+        </p>
+
+        <div class="dua-box" id="duaText">
+            "الحمد لله على ما انقضى من تعب، والشكر له على ما تحقق من توفيق. نسأل الله العلي القدير أن يوفقنا جميعاً في السنة المقبلة، وأن يجعلها سنة نجاح، تميز، وتيسير لكل الطلاب."
+        </div>
+
+        <small class="grandpa-dua" id="grandpaText">
+            <i class="fas fa-heart"></i> لا تنسوا الدعاء لجدي بالرحمة والمغفرة
+        </small>
+    </div>
+
+    <script>
+        let currentLang = 'ar';
+
+        // دالة عرض التاريخ بالأرقام العالمية 1, 2, 3
+        function displayCurrentDate() {
+            const today = new Date();
+            const optionsAr = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const optionsEn = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            if (currentLang === 'ar') {
+                let dateStr = today.toLocaleDateString('ar-MA', optionsAr);
+                document.getElementById('currentDate').innerText = "التاريخ: " + dateStr;
+            } else {
+                document.getElementById('currentDate').innerText = "Date: " + today.toLocaleDateString('en-US', optionsEn);
+            }
+        }
+        
+        // تشغيل الدالة فوراً عند تحميل الصفحة
+        displayCurrentDate();
+
+        // سكريبت تبديل الوضع الداكن / المضيء
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+            }
+        });
+
+        // قاموس النصوص المترجمة للتبديل الفوري للغات
+        const translations = {
+            ar: {
+                title: "نعلن رسمياً نهاية السنة الجامعية",
+                desc: "الحمد لله الذي بنعمته تتم الصالحات، نعلن لكم عن اختتام السنة الدراسية الجامعية بنجاح.",
+                dua: '"الحمد لله على ما انقضى من تعب، والشكر له على ما تحقق من توفيق. نسأل الله العلي القدير أن يوفقنا جميعاً في السنة المقبلة، وأن يجعلها سنة نجاح، تميز، وتيسير لكل الطلاب."',
+                grandpa: "لا تنسوا الدعاء لجدي بالرحمة والمغفرة"
+            },
+            en: {
+                title: "We officially announce the end of the academic year",
+                desc: "Praise be to Allah, by whose grace good deeds are accomplished. We announce the successful conclusion of the university academic year.",
+                dua: '"Praise be to Allah for the hard work that has passed, and thanks be to Him for the success achieved. We ask Almighty Allah to grant us all success in the coming year, and to make it a year of success, distinction, and ease for all students."',
+                grandpa: "Please don't forget to pray for my grandfather for mercy and forgiveness"
+            }
+        };
+
+        // سكريبت الترجمة الفورية للأزرار والنصوص الأساسية
+        const langBtn = document.getElementById('langBtn');
+        
+        langBtn.addEventListener('click', () => {
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                document.documentElement.setAttribute('lang', 'en');
+                document.documentElement.setAttribute('dir', 'ltr');
+            } else {
+                currentLang = 'ar';
+                document.documentElement.setAttribute('lang', 'ar');
+                document.documentElement.setAttribute('dir', 'rtl');
+            }
+            
+            document.getElementById('mainTitle').innerText = translations[currentLang].title;
+            document.getElementById('mainDesc').innerHTML = translations[currentLang].desc + '<br><span class="date-box" id="currentDate"></span>';
+            document.getElementById('duaText').innerText = translations[currentLang].dua;
+            document.getElementById('grandpaText').innerHTML = `<i class="fas fa-heart"></i> ${translations[currentLang].grandpa}`;
+            
+            displayCurrentDate();
+        });
+    </script>
+
+</body>
+</html>
